@@ -3,12 +3,14 @@
 frustrated with other either "incompatible" or "over-engineered" 2fa-totp packages,
 porting TOTP generation code from rsc/2fa to implement server side works like charm
 
+### Features:
+- works fine on generating totp key-uri and QR code.
+- validates TOTP code
 
-
-## IT's a WIP!
-- works fine on generating totp url.
 
 ### To-Do
-- totp validation
+- test, test and test.
 - retry throttling 
-- can be more beautifull !
+- skew to validate one step previous or next code
+- can be more beautifull.
+- IT's a WIP!

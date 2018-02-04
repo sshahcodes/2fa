@@ -21,14 +21,6 @@ type Totp struct {
 	Peroid    int
 }
 
-type Key struct {
-	raw    []byte
-	digits int
-	offset int // offset of counter
-}
-
-const counterLen = 20
-
 func Secret() string {
 	secret := make([]byte, 10)
 	_, err := rand.Read(secret)
@@ -41,7 +33,7 @@ func Secret() string {
 
 func GenerateTotp(totp Totp) string {
 	issuer := totp.Issuer
-	secret := Secret()
+	secret := totp.Secret
 	account := totp.Account
 	algorithm := totp.Algorithm
 	digits := totp.Digits
@@ -53,6 +45,24 @@ func GenerateTotp(totp Totp) string {
 		issuer, account, algorithm, digits, issuer, period, secret)
 	return url
 
+}
+
+// ValidateTotp validates input code with stored code (stored code can be computed from key stored in database)
+func ValidateTotp(inputCode, dbCode string) bool {
+	if inputCode == dbCode {
+		return true
+	} else {
+		return false
+	}
+
+}
+
+func CalculateTotp(dbcode string) string {
+
+	finalKey, _ := decodeKey(dbcode)
+	code := totp(([]byte(finalKey)), time.Now(), 6)
+
+	return fmt.Sprintf("%0*d", 6, code)
 }
 
 func noSpace(r rune) rune {
