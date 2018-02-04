@@ -42,17 +42,17 @@ func main() {
 		panic(err)
 	}
 
-	passcode := promptForPasscode()
-	if totp.ValidateTotp(passcode, totp.CalculateTotp(secretKey)) == true {
+	inputCode := prompt()
+	if totp.ValidateTotp(inputCode, totp.CalculateTotp(secretKey)) == true {
 		fmt.Println("valid code")
 	} else {
 		fmt.Println("invalid code")
 	}
 }
 
-func promptForPasscode() string {
+func prompt() string {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter Passcode: ")
-	text, _ := reader.ReadString('\n')
-	return strings.TrimRight(text, "\n")
+	code, _ := reader.ReadString('\n')
+	return strings.TrimRight(code, "\n")
 }
