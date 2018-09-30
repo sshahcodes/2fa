@@ -11,6 +11,6 @@ porting TOTP generation code from rsc/2fa to implement server side works like ch
 ### To-Do
 - test, test and test.
 - retry throttling 
-- skew to validate one step previous or next code
+- [done] skew to validate one step previous or next code
 - can be more beautifull.
 - IT's a WIP!

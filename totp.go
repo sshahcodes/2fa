@@ -57,12 +57,19 @@ func ValidateTotp(inputCode, dbCode string) bool {
 
 }
 
-func CalculateTotp(dbcode string) string {
+// we are adding three return string since first and last one wil be for skew values.
+func CalculateTotp(dbcode string) (string, string, string) {
 
 	finalKey, _ := decodeKey(dbcode)
-	code := totp(([]byte(finalKey)), time.Now(), 6)
+	nowtime := time.Now()
+	skewsub := nowtime.Add(time.Duration(-3e+10))
+	skewadd := nowtime.Add(time.Duration(3e+10))
 
-	return fmt.Sprintf("%0*d", 6, code)
+	currentCode := totp(([]byte(finalKey)), nowtime, 6)
+	skewSubCode := totp(([]byte(finalKey)), skewsub, 6)
+	skewAddCode := totp(([]byte(finalKey)), skewadd, 6)
+
+	return fmt.Sprintf("%0*d", 6, skewSubCode),fmt.Sprintf("%0*d", 6, currentCode), fmt.Sprintf("%0*d", 6, skewAddCode)
 }
 
 func noSpace(r rune) rune {
