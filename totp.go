@@ -41,7 +41,7 @@ func GenerateTotp(totp Totp) string {
 
 	// adhere to key-uri format: otpauth://TYPE/LABEL?PARAMETERS
 	// eg: otpauth://totp/Example:alice@google.com?secret=JBSWY3DPEHPK3PXP&issuer=Example
-	url := fmt.Sprintf("otpauth://totp/%s:%s?algorithm=%s&&digits=%d&issuer=%s&perior=%d&secret=%s",
+	url := fmt.Sprintf("otpauth://totp/%s:%s?algorithm=%s&&digits=%d&issuer=%s&period=%d&secret=%s",
 		issuer, account, algorithm, digits, issuer, period, secret)
 	return url
 
@@ -69,7 +69,7 @@ func CalculateTotp(dbcode string) (string, string, string) {
 	skewSubCode := totp(([]byte(finalKey)), skewsub, 6)
 	skewAddCode := totp(([]byte(finalKey)), skewadd, 6)
 
-	return fmt.Sprintf("%0*d", 6, skewSubCode),fmt.Sprintf("%0*d", 6, currentCode), fmt.Sprintf("%0*d", 6, skewAddCode)
+	return fmt.Sprintf("%0*d", 6, skewSubCode), fmt.Sprintf("%0*d", 6, currentCode), fmt.Sprintf("%0*d", 6, skewAddCode)
 }
 
 func noSpace(r rune) rune {

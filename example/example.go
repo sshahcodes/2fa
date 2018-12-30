@@ -42,12 +42,27 @@ func main() {
 		panic(err)
 	}
 
-	inputCode := prompt()
-	if totp.ValidateTotp(inputCode, totp.CalculateTotp(secretKey)) == true {
-		fmt.Println("valid code")
-	} else {
-		fmt.Println("invalid code")
+	for {
+		inputCode := prompt()
+		fmt.Println(inputCode)
+		totpThen, totpNow, totpAfter := totp.CalculateTotp(secretKey)
+
+		if totp.ValidateTotp(inputCode, totpThen) == true || totp.ValidateTotp(inputCode, totpNow) == true || totp.ValidateTotp(inputCode, totpAfter) == true {
+			fmt.Println("valid code")
+		} else {
+			fmt.Println("invalid code")
+		}
+
+		// if totp.ValidateTotp(inputCode, tot)
+		fmt.Println(totpThen, totpNow, totpAfter)
 	}
+
+	// if totp.ValidateTotp(inputCode, totp.CalculateTotp(secretKey)) == true {
+	// 	fmt.Println("valid code")
+	// } else {
+	// 	fmt.Println("invalid code")
+	// }
+
 }
 
 func prompt() string {
